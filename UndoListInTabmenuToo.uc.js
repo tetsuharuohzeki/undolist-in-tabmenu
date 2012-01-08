@@ -6,7 +6,7 @@
 
 let UndoListInTabmenuToo = {
 
-  get tabContextUndoList () {
+  get undoMenu () {
     return document.getElementById("tabContextUndoList");
   },
 
@@ -18,7 +18,7 @@ let UndoListInTabmenuToo = {
 
   toggleRecentlyClosedTabs: function HM_toggleRecentlyClosedTabs() {
     // enable/disable the Recently Closed Tabs sub menu
-    let undoMenu = this.tabContextUndoList;
+    let undoMenu = this.undoMenu;
 
     // no restorable tabs, so disable menu
     if (this._ss.getClosedTabCount(window) == 0)
