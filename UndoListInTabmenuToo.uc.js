@@ -120,11 +120,13 @@ let UndoListInTabmenuToo = {
    */
   _onPopupShowing: function HM__onPopupShowing(aEvent) {
     let target = aEvent.target;
-    if (target.id == "tabContextUndoList-popup") {
-      this.populateUndoSubmenu(target);
-    }
-    else if (target.id == gBrowser.tabContainer.contextMenu.id) {
-      this.toggleRecentlyClosedTabs();;
+    switch (target.id) {
+      case "tabContextUndoList-popup":
+        this.populateUndoSubmenu(target);
+        break;
+      case "tabContextMenu":
+        this.toggleRecentlyClosedTabs();
+        break;
     }
   },
 
