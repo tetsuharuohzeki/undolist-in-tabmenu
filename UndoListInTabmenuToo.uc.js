@@ -85,25 +85,7 @@ let UndoListInTabmenuToo = {
       }
       undoPopup.appendChild(m);
     }
-/*
-    // "Restore All Tabs"
-    let strings = gNavigatorBundle;
-    undoPopup.appendChild(document.createElement("menuseparator"));
-    let m = undoPopup.appendChild(document.createElement("menuitem"));
-    m.id = "menu_restoreAllTabs";
-    m.setAttribute("label", strings.getString("menuRestoreAllTabs.label"));
-    m.addEventListener("command", function() {
-      for (let i = 0; i < undoItems.length; i++)
-        undoCloseTab();
-    }, false);
-*/
-    // "Clear undo close tab list"
-    undoPopup.appendChild(document.createElement("menuseparator"));
 
-    let m = undoPopup.appendChild(document.createElement("menuitem"));
-    m.setAttribute("label", "Clear Undo Close Tabs List");
-    m.setAttribute("accesskey", "C");
-    m.addEventListener("command", this._clearUndoTabList, false);
   },
 
   _clearUndoTabList: function () {
@@ -121,7 +103,7 @@ let UndoListInTabmenuToo = {
     let target = aEvent.target;
     switch (target.id) {
       case "context-undoTabList-popup":
-        this.populateUndoSubmenu(target);
+        this.populateUndoSubmenu(target.firstChild);
         break;
       case "tabContextMenu":
         this.toggleRecentlyClosedTabs();
@@ -161,6 +143,27 @@ let UndoListInTabmenuToo = {
     // menupopup
     let menupopup = document.createElement("menupopup");
     menupopup.setAttribute("id", "context-undoTabList-popup");
+    menupopup.appendChild(document.createElement("vbox"));
+
+/*
+    // "Restore All Tabs"
+    let strings = gNavigatorBundle;
+    menupopup.appendChild(document.createElement("menuseparator"));
+    let m = menupopup.appendChild(document.createElement("menuitem"));
+    m.setAttribute("id", "menu_restoreAllTabs");
+    m.setAttribute("label", strings.getString("menuRestoreAllTabs.label"));
+    m.addEventListener("command", function() {
+      for (let i = 0; i < undoItems.length; i++)
+        undoCloseTab();
+    }, false);
+*/
+    // "Clear undo close tab list"
+    menupopup.appendChild(document.createElement("menuseparator"));
+
+    let m = menupopup.appendChild(document.createElement("menuitem"));
+    m.setAttribute("label", "Clear Undo Close Tabs List");
+    m.setAttribute("accesskey", "C");
+    m.addEventListener("command", this._clearUndoTabList, false);
 
     menu.appendChild(menupopup);
 
