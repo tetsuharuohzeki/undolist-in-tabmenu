@@ -44,22 +44,12 @@ var UndoListInTabmenuToo = {
   /**
    * Populate when the history menu is opened
    */
-  populateUndoSubmenu: function PHM_populateUndoSubmenu() {
-    var undoMenu = this.tabContextUndoList;
-    var undoPopup = undoMenu.firstChild;
+  populateUndoSubmenu: function PHM_populateUndoSubmenu(aUndoPopup) {
+    var undoPopup = aUndoPopup;
 
     // remove existing menu items
     while (undoPopup.hasChildNodes())
       undoPopup.removeChild(undoPopup.firstChild);
-
-    // no restorable tabs, so make sure menu is disabled, and return
-    if (this._ss.getClosedTabCount(window) == 0) {
-      undoMenu.setAttribute("disabled", true);
-      return;
-    }
-
-    // enable menu
-    undoMenu.removeAttribute("disabled");
 
     // populate menu
     var undoItems = eval("(" + this._ss.getClosedTabData(window) + ")");
