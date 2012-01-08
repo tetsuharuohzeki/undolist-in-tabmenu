@@ -132,27 +132,11 @@ let UndoListInTabmenuToo = {
   init: function(){
     let tabContext = gBrowser.tabContainer.contextMenu;
     let originalMenuItem = document.getElementById("context_undoCloseTab");
+    let [menu, menupopup] = this._createMenu();
 
-    // label
-    let locale = Services.prefs.getCharPref("general.useragent.locale");
-    let LABELTEXT = locale.indexOf("ja") === -1 ? 
-                   "Recently Closed Tabs" : "\u6700\u8fd1\u9589\u3058\u305f\u30bf\u30d6";
-
-    // menu
-    let menu = document.createElement("menu");
-    menu.setAttribute("id", "context-undoTabList");
-    menu.setAttribute("label", LABELTEXT);
-    menu.setAttribute("accesskey", "L");
-
-    // menupopup
-    let menupopup = document.createElement("menupopup");
-    menupopup.setAttribute("id", "context-undoTabList-popup");
-
-    menu.appendChild(menupopup);
     tabContext.insertBefore(menu, originalMenuItem);
-
     //insert separator
-    tabContext.insertBefore(document.createElement("menuseparator"), menu.nextSibling);
+    tabContext.insertBefore(document.createElement("menuseparator"), originalMenuItem);
 
     //add event listener
     tabContext.addEventListener("popupshowing", this, false);
@@ -161,6 +145,26 @@ let UndoListInTabmenuToo = {
     window.addEventListener("unload", this, false);
 
     originalMenuItem.setAttribute("hidden", "true");
+  },
+
+  _createMenu: function () {
+    let menu = document.createElement("menu");
+    menu.setAttribute("id", "context-undoTabList");
+
+    let locale = Services.prefs.getCharPref("general.useragent.locale");
+    let LABELTEXT = locale.indexOf("ja") === -1 ? 
+                   "Recently Closed Tabs" : "\u6700\u8fd1\u9589\u3058\u305f\u30bf\u30d6";
+
+    menu.setAttribute("label", LABELTEXT);
+    menu.setAttribute("accesskey", "L");
+
+    // menupopup
+    let menupopup = document.createElement("menupopup");
+    menupopup.setAttribute("id", "context-undoTabList-popup");
+
+    menu.appendChild(menupopup);
+
+    return [menu, menupopup];
   },
 
   _onUnLoad: function (aEvent) {
