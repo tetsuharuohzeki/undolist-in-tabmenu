@@ -104,12 +104,15 @@ let UndoListInTabmenuToo = {
     m.setAttribute("label", "Clear undo close tab list");
     m.setAttribute("class", "menuitem-iconic bookmark-item");
     m.setAttribute("accesskey", "C");
-    m.addEventListener("command", function() {
-      let prefs = Services.prefs;
-      let max_undo = prefs.getIntPref("browser.sessionstore.max_tabs_undo", 10);
-      prefs.setIntPref("browser.sessionstore.max_tabs_undo", 0);
-      prefs.setIntPref("browser.sessionstore.max_tabs_undo", max_undo);
-    }, false);
+    m.addEventListener("command", this._clearUndoTabList, false);
+  },
+
+  _clearUndoTabList: function () {
+    const kMAX_TABS_UNDO = "browser.sessionstore.max_tabs_undo";
+    let max_undo = Services.prefs.getIntPref(kMAX_TABS_UNDO, 10);
+
+    Services.prefs.setIntPref(kMAX_TABS_UNDO, 0);
+    Services.prefs.setIntPref(kMAX_TABS_UNDO, max_undo);
   },
 
   /**
