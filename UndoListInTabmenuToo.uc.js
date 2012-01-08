@@ -111,11 +111,13 @@ var UndoListInTabmenuToo = {
    * Populate when the history menu is opened
    */
   _onPopupShowing: function HM__onPopupShowing(aEvent) {
-    // Don't handle events for submenus.
-    if (aEvent.target != aEvent.currentTarget)
-      return;
-
-    this.toggleRecentlyClosedTabs();
+    let target = aEvent.target;
+    if (target.id == "tabContextUndoList-popup") {
+      this.populateUndoSubmenu(target);
+    }
+    else if (target.id == gBrowser.tabContainer.contextMenu.id) {
+      this.toggleRecentlyClosedTabs();;
+    }
   },
 
   init: function(){
@@ -135,7 +137,7 @@ var UndoListInTabmenuToo = {
 
    // menupopup
    let menupopup = document.createElement("menupopup");
-   menupopup.setAttribute("onpopupshowing", "UndoListInTabmenuToo.populateUndoSubmenu(this).call(UndoListInTabmenuToo);");
+   menupopup.setAttribute("id", "tabContextUndoList-popup");
 
    menu.appendChild(menupopup);
    tabContext.insertBefore(menu, originalMenuItem);
@@ -145,6 +147,7 @@ var UndoListInTabmenuToo = {
 
    //add event listener
    tabContext.addEventListener("popupshowing", this, false);
+   menupopup.addEventListener("popupshowing", this, false);
 
    originalMenuItem.hidden = true;
  },
