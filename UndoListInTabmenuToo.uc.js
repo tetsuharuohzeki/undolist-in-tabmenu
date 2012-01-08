@@ -7,7 +7,7 @@
 let UndoListInTabmenuToo = {
 
   get undoMenu () {
-    return document.getElementById("tabContextUndoList");
+    return document.getElementById("context-undoTabList");
   },
 
   get _ss () {
@@ -121,7 +121,7 @@ let UndoListInTabmenuToo = {
   _onPopupShowing: function HM__onPopupShowing(aEvent) {
     let target = aEvent.target;
     switch (target.id) {
-      case "tabContextUndoList-popup":
+      case "context-undoTabList-popup":
         this.populateUndoSubmenu(target);
         break;
       case "tabContextMenu":
@@ -141,13 +141,13 @@ let UndoListInTabmenuToo = {
 
     // menu
     let menu = document.createElement("menu");
-    menu.setAttribute("id", "tabContextUndoList");
+    menu.setAttribute("id", "context-undoTabList");
     menu.setAttribute("label", LABELTEXT);
     menu.setAttribute("accesskey", "L");
 
     // menupopup
     let menupopup = document.createElement("menupopup");
-    menupopup.setAttribute("id", "tabContextUndoList-popup");
+    menupopup.setAttribute("id", "context-undoTabList-popup");
 
     menu.appendChild(menupopup);
     tabContext.insertBefore(menu, originalMenuItem);
