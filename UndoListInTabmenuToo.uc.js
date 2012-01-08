@@ -167,8 +167,8 @@ let UndoListInTabmenuToo = {
   _onUnLoad: function (aEvent) {
     window.removeEventListener("unload", this, false);
 
-    tabContext.removeEventListener("popupshowing", this, false);
-    menupopup.removeEventListener("popupshowing", this, false);
+    gBrowser.tabContainer.contextMenu.removeEventListener("popupshowing", this, false);
+    document.getElementById("context-undoTabList-popup").removeEventListener("popupshowing", this, false);
   },
 
   handleEvent: function (aEvent) {
