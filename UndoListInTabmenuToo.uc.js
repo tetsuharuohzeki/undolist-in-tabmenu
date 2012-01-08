@@ -97,6 +97,20 @@ var UndoListInTabmenuToo = {
       for (var i = 0; i < undoItems.length; i++)
         undoCloseTab();
     }, false);
+
+    // "Clear undo close tab list"
+    undoPopup.appendChild(document.createElement("menuseparator"));
+
+    m = undoPopup.appendChild(document.createElement("menuitem"));
+    m.setAttribute("label", "Clear undo close tab list");
+    m.setAttribute("class", "menuitem-iconic bookmark-item");
+    m.setAttribute("accesskey", "C");
+    m.addEventListener("command", function() {
+      let prefs = Services.prefs;
+      let max_undo = prefs.getIntPref("browser.sessionstore.max_tabs_undo", 10);
+      prefs.setIntPref("browser.sessionstore.max_tabs_undo", 0);
+      prefs.setIntPref("browser.sessionstore.max_tabs_undo", max_undo);
+    }, false);
   },
 
   /**
