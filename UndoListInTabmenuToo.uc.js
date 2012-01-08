@@ -161,7 +161,7 @@ let UndoListInTabmenuToo = {
 
     window.addEventListener("unload", this, false);
 
-    originalMenuItem.hidden = true;
+    originalMenuItem.setAttribute("hidden", "true");
   },
 
   _onUnLoad: function (aEvent) {
