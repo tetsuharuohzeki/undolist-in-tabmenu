@@ -143,5 +143,13 @@ var UndoListInTabmenuToo = {
    originalMenuItem.hidden = true;
  },
 
+  handleEvent: function (aEvent) {
+   switch (aEvent.type) {
+     case "popupshowing":
+       this._onPopupShowing(aEvent);
+       break;
+   }
+ },
+
 };
 UndoListInTabmenuToo.init();
