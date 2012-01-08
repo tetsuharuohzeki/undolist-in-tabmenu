@@ -48,19 +48,22 @@ let UndoListInTabmenuToo = {
     let undoPopup = aUndoPopup;
 
     // remove existing menu items
-    while (undoPopup.hasChildNodes())
+    while (undoPopup.hasChildNodes()) {
       undoPopup.removeChild(undoPopup.firstChild);
+    }
 
     // populate menu
     let undoItems = JSON.parse(this._ss.getClosedTabData(window));
-    for (let i = 0; i < undoItems.length; i++) {
+    for (let i = 0, l = undoItems.length; i < l; i++) {
       let m = document.createElement("menuitem");
-      m.setAttribute("label", undoItems[i].title);
-      if (undoItems[i].image) {
-        let iconURL = undoItems[i].image;
+      let undoItem = undoItems[i];
+      m.setAttribute("label", undoItem.title);
+      if (undoItem.image) {
+        let iconURL = undoItem.image;
         // don't initiate a connection just to fetch a favicon (see bug 467828)
-        if (/^https?:/.test(iconURL))
+        if (/^https?:/.test(iconURL)) {
           iconURL = "moz-anno:favicon:" + iconURL;
+        }
         m.setAttribute("image", iconURL);
       }
       m.setAttribute("class", "menuitem-iconic bookmark-item menuitem-with-favicon");
@@ -70,14 +73,16 @@ let UndoListInTabmenuToo = {
       // Set the targetURI attribute so it will be shown in tooltip and trigger
       // onLinkHovered. SessionStore uses one-based indexes, so we need to
       // normalize them.
-      let tabData = undoItems[i].state;
+      let tabData = undoItem.state;
       let activeIndex = (tabData.index || tabData.entries.length) - 1;
-      if (activeIndex >= 0 && tabData.entries[activeIndex])
+      if (activeIndex >= 0 && tabData.entries[activeIndex]) {
         m.setAttribute("targetURI", tabData.entries[activeIndex].url);
+      }
 
       m.addEventListener("click", this._undoCloseMiddleClick, false);
-      if (i == 0)
+      if (i == 0) {
         m.setAttribute("key", "key_undoCloseTab");
+      }
       undoPopup.appendChild(m);
     }
 
