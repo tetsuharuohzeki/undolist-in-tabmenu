@@ -5,6 +5,13 @@
 // ==/UserScript==
 
 var UndoListInTabmenuToo = {
+
+  get _ss () {
+   delete this._ss;
+   return this._ss = Cc["@mozilla.org/browser/sessionstore;1"].
+                     getService(Ci.nsISessionStore);
+ },
+
   toggleRecentlyClosedTabs: function HM_toggleRecentlyClosedTabs() {
     // enable/disable the Recently Closed Tabs sub menu
     var undoMenu = this._rootElt.getElementsByClassName("recentlyClosedTabsMenu")[0];
