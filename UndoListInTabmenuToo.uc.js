@@ -11,10 +11,10 @@ var UndoListInTabmenuToo = {
   },
 
   get _ss () {
-   delete this._ss;
-   return this._ss = Cc["@mozilla.org/browser/sessionstore;1"].
-                     getService(Ci.nsISessionStore);
- },
+    delete this._ss;
+    return this._ss = Cc["@mozilla.org/browser/sessionstore;1"].
+                      getService(Ci.nsISessionStore);
+  },
 
   toggleRecentlyClosedTabs: function HM_toggleRecentlyClosedTabs() {
     // enable/disable the Recently Closed Tabs sub menu
@@ -121,44 +121,44 @@ var UndoListInTabmenuToo = {
   },
 
   init: function(){
-   let tabContext = gBrowser.tabContainer.contextMenu;
-   let originalMenuItem = document.getElementById("context_undoCloseTab");
+    let tabContext = gBrowser.tabContainer.contextMenu;
+    let originalMenuItem = document.getElementById("context_undoCloseTab");
 
-   // label
-   let locale = Services.prefs.getCharPref("general.useragent.locale");
-   let LABELTEXT = locale.indexOf("ja") === -1 ? 
+    // label
+    let locale = Services.prefs.getCharPref("general.useragent.locale");
+    let LABELTEXT = locale.indexOf("ja") === -1 ? 
                    "Recently Closed Tabs" : "\u6700\u8fd1\u9589\u3058\u305f\u30bf\u30d6";
 
-   // menu
-   let menu = document.createElement("menu");
-   menu.setAttribute("id", "tabContextUndoList");
-   menu.setAttribute("label", LABELTEXT);
-   menu.setAttribute("accesskey", "L");
+    // menu
+    let menu = document.createElement("menu");
+    menu.setAttribute("id", "tabContextUndoList");
+    menu.setAttribute("label", LABELTEXT);
+    menu.setAttribute("accesskey", "L");
 
-   // menupopup
-   let menupopup = document.createElement("menupopup");
-   menupopup.setAttribute("id", "tabContextUndoList-popup");
+    // menupopup
+    let menupopup = document.createElement("menupopup");
+    menupopup.setAttribute("id", "tabContextUndoList-popup");
 
-   menu.appendChild(menupopup);
-   tabContext.insertBefore(menu, originalMenuItem);
+    menu.appendChild(menupopup);
+    tabContext.insertBefore(menu, originalMenuItem);
 
-   //insert separator
-   tabContext.insertBefore(document.createElement("menuseparator"), menu.nextSibling);
+    //insert separator
+    tabContext.insertBefore(document.createElement("menuseparator"), menu.nextSibling);
 
-   //add event listener
-   tabContext.addEventListener("popupshowing", this, false);
-   menupopup.addEventListener("popupshowing", this, false);
+    //add event listener
+    tabContext.addEventListener("popupshowing", this, false);
+    menupopup.addEventListener("popupshowing", this, false);
 
-   originalMenuItem.hidden = true;
- },
+    originalMenuItem.hidden = true;
+  },
 
   handleEvent: function (aEvent) {
-   switch (aEvent.type) {
-     case "popupshowing":
-       this._onPopupShowing(aEvent);
-       break;
-   }
- },
+    switch (aEvent.type) {
+      case "popupshowing":
+        this._onPopupShowing(aEvent);
+        break;
+    }
+  },
 
 };
 UndoListInTabmenuToo.init();
