@@ -6,6 +6,10 @@
 
 var UndoListInTabmenuToo = {
 
+  get tabContextUndoList () {
+    return document.getElementById("tabContextUndoList");
+  },
+
   get _ss () {
    delete this._ss;
    return this._ss = Cc["@mozilla.org/browser/sessionstore;1"].
@@ -14,7 +18,7 @@ var UndoListInTabmenuToo = {
 
   toggleRecentlyClosedTabs: function HM_toggleRecentlyClosedTabs() {
     // enable/disable the Recently Closed Tabs sub menu
-    var undoMenu = this._rootElt.getElementsByClassName("recentlyClosedTabsMenu")[0];
+    let undoMenu = this.tabContextUndoList;
 
     // no restorable tabs, so disable menu
     if (this._ss.getClosedTabCount(window) == 0)
@@ -41,7 +45,7 @@ var UndoListInTabmenuToo = {
    * Populate when the history menu is opened
    */
   populateUndoSubmenu: function PHM_populateUndoSubmenu() {
-    var undoMenu = this._rootElt.getElementsByClassName("recentlyClosedTabsMenu")[0];
+    var undoMenu = this.tabContextUndoList;
     var undoPopup = undoMenu.firstChild;
 
     // remove existing menu items
