@@ -101,7 +101,7 @@ let UndoListInTabmenuToo = {
     undoPopup.appendChild(document.createElement("menuseparator"));
 
     let m = undoPopup.appendChild(document.createElement("menuitem"));
-    m.setAttribute("label", "Clear undo close tab list");
+    m.setAttribute("label", "Clear Undo Close Tabs List");
     m.setAttribute("accesskey", "C");
     m.addEventListener("command", this._clearUndoTabList, false);
   },
