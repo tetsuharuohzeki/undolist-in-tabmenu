@@ -92,116 +92,9 @@ var UndoListInTabmenuToo = {
     }, false);
   },
 
-  toggleRecentlyClosedWindows: function PHM_toggleRecentlyClosedWindows() {
-    // enable/disable the Recently Closed Windows sub menu
-    var undoMenu = this._rootElt.getElementsByClassName("recentlyClosedWindowsMenu")[0];
-
-    // no restorable windows, so disable menu
-    if (this._ss.getClosedWindowCount() == 0)
-      undoMenu.setAttribute("disabled", true);
-    else
-      undoMenu.removeAttribute("disabled");
-  },
-
   /**
    * Populate when the history menu is opened
    */
-  populateUndoWindowSubmenu: function PHM_populateUndoWindowSubmenu() {
-    let undoMenu = this._rootElt.getElementsByClassName("recentlyClosedWindowsMenu")[0];
-    let undoPopup = undoMenu.firstChild;
-    let menuLabelString = gNavigatorBundle.getString("menuUndoCloseWindowLabel");
-    let menuLabelStringSingleTab =
-      gNavigatorBundle.getString("menuUndoCloseWindowSingleTabLabel");
-
-    // remove existing menu items
-    while (undoPopup.hasChildNodes())
-      undoPopup.removeChild(undoPopup.firstChild);
-
-    // no restorable windows, so make sure menu is disabled, and return
-    if (this._ss.getClosedWindowCount() == 0) {
-      undoMenu.setAttribute("disabled", true);
-      return;
-    }
-
-    // enable menu
-    undoMenu.removeAttribute("disabled");
-
-    // populate menu
-    let undoItems = JSON.parse(this._ss.getClosedWindowData());
-    for (let i = 0; i < undoItems.length; i++) {
-      let undoItem = undoItems[i];
-      let otherTabsCount = undoItem.tabs.length - 1;
-      let label = (otherTabsCount == 0) ? menuLabelStringSingleTab
-                                        : PluralForm.get(otherTabsCount, menuLabelString);
-      let menuLabel = label.replace("#1", undoItem.title)
-                           .replace("#2", otherTabsCount);
-      let m = document.createElement("menuitem");
-      m.setAttribute("label", menuLabel);
-      let selectedTab = undoItem.tabs[undoItem.selected - 1];
-      if (selectedTab.attributes.image) {
-        let iconURL = selectedTab.attributes.image;
-        // don't initiate a connection just to fetch a favicon (see bug 467828)
-        if (/^https?:/.test(iconURL))
-          iconURL = "moz-anno:favicon:" + iconURL;
-        m.setAttribute("image", iconURL);
-      }
-      m.setAttribute("class", "menuitem-iconic bookmark-item menuitem-with-favicon");
-      m.setAttribute("oncommand", "undoCloseWindow(" + i + ");");
-
-      // Set the targetURI attribute so it will be shown in tooltip.
-      // SessionStore uses one-based indexes, so we need to normalize them.
-      let activeIndex = (selectedTab.index || selectedTab.entries.length) - 1;
-      if (activeIndex >= 0 && selectedTab.entries[activeIndex])
-        m.setAttribute("targetURI", selectedTab.entries[activeIndex].url);
-
-      if (i == 0)
-        m.setAttribute("key", "key_undoCloseWindow");
-      undoPopup.appendChild(m);
-    }
-
-    // "Open All in Windows"
-    undoPopup.appendChild(document.createElement("menuseparator"));
-    let m = undoPopup.appendChild(document.createElement("menuitem"));
-    m.id = "menu_restoreAllWindows";
-    m.setAttribute("label", gNavigatorBundle.getString("menuRestoreAllWindows.label"));
-    m.setAttribute("oncommand",
-      "for (var i = 0; i < " + undoItems.length + "; i++) undoCloseWindow();");
-  },
-
-  toggleTabsFromOtherComputers: function PHM_toggleTabsFromOtherComputers() {
-    // This is a no-op if MOZ_SERVICES_SYNC isn't defined
-#ifdef MOZ_SERVICES_SYNC
-    // Enable/disable the Tabs From Other Computers menu. Some of the menus handled
-    // by HistoryMenu do not have this menuitem.
-    let menuitem = this._rootElt.getElementsByClassName("syncTabsMenuItem")[0];
-    if (!menuitem)
-      return;
-
-    // If Sync isn't configured yet, then don't show the menuitem.
-    if (Weave.Status.checkSetup() == Weave.CLIENT_NOT_CONFIGURED ||
-        Weave.Svc.Prefs.get("firstSync", "") == "notReady") {
-      menuitem.setAttribute("hidden", true);
-      return;
-    }
-
-    // The tabs engine might never be inited (if services.sync.registerEngines
-    // is modified), so make sure we avoid undefined errors.
-    let enabled = Weave.Service.isLoggedIn && Weave.Engines.get("tabs") &&
-                  Weave.Engines.get("tabs").enabled;
-    menuitem.setAttribute("disabled", !enabled);
-    menuitem.setAttribute("hidden", false);
-#endif
-  },
-
-  toggleRestoreLastSession: function PHM_toggleRestoreLastSession() {
-    let restoreItem = this._rootElt.getElementsByClassName("restoreLastSession")[0];
-
-    if (this._ss.canRestoreLastSession)
-      restoreItem.removeAttribute("disabled");
-    else
-      restoreItem.setAttribute("disabled", true);
-  },
-
   _onPopupShowing: function HM__onPopupShowing(aEvent) {
     PlacesMenu.prototype._onPopupShowing.apply(this, arguments);
 
@@ -210,16 +103,6 @@ var UndoListInTabmenuToo = {
       return;
 
     this.toggleRecentlyClosedTabs();
-    this.toggleRecentlyClosedWindows();
-    this.toggleTabsFromOtherComputers();
-    this.toggleRestoreLastSession();
   },
 
-  _onCommand: function HM__onCommand(aEvent) {
-    let placesNode = aEvent.target._placesNode;
-    if (placesNode) {
-      PlacesUIUtils.markPageAsTyped(placesNode.uri);
-      openUILink(placesNode.uri, aEvent, false, true);
-    }
-  }
 };
