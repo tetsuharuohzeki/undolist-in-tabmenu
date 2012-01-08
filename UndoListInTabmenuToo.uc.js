@@ -103,8 +103,6 @@ var UndoListInTabmenuToo = {
    * Populate when the history menu is opened
    */
   _onPopupShowing: function HM__onPopupShowing(aEvent) {
-    PlacesMenu.prototype._onPopupShowing.apply(this, arguments);
-
     // Don't handle events for submenus.
     if (aEvent.target != aEvent.currentTarget)
       return;
