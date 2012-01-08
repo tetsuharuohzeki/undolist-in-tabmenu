@@ -4,7 +4,7 @@
 // @include        main
 // ==/UserScript==
 
-var UndoListInTabmenuToo = {
+let UndoListInTabmenuToo = {
 
   get tabContextUndoList () {
     return document.getElementById("tabContextUndoList");
@@ -45,16 +45,16 @@ var UndoListInTabmenuToo = {
    * Populate when the history menu is opened
    */
   populateUndoSubmenu: function PHM_populateUndoSubmenu(aUndoPopup) {
-    var undoPopup = aUndoPopup;
+    let undoPopup = aUndoPopup;
 
     // remove existing menu items
     while (undoPopup.hasChildNodes())
       undoPopup.removeChild(undoPopup.firstChild);
 
     // populate menu
-    var undoItems = JSON.parse(this._ss.getClosedTabData(window));
-    for (var i = 0; i < undoItems.length; i++) {
-      var m = document.createElement("menuitem");
+    let undoItems = JSON.parse(this._ss.getClosedTabData(window));
+    for (let i = 0; i < undoItems.length; i++) {
+      let m = document.createElement("menuitem");
       m.setAttribute("label", undoItems[i].title);
       if (undoItems[i].image) {
         let iconURL = undoItems[i].image;
@@ -82,20 +82,20 @@ var UndoListInTabmenuToo = {
     }
 
     // "Restore All Tabs"
-    var strings = gNavigatorBundle;
+    let strings = gNavigatorBundle;
     undoPopup.appendChild(document.createElement("menuseparator"));
-    m = undoPopup.appendChild(document.createElement("menuitem"));
+    let m = undoPopup.appendChild(document.createElement("menuitem"));
     m.id = "menu_restoreAllTabs";
     m.setAttribute("label", strings.getString("menuRestoreAllTabs.label"));
     m.addEventListener("command", function() {
-      for (var i = 0; i < undoItems.length; i++)
+      for (let i = 0; i < undoItems.length; i++)
         undoCloseTab();
     }, false);
 
     // "Clear undo close tab list"
     undoPopup.appendChild(document.createElement("menuseparator"));
 
-    m = undoPopup.appendChild(document.createElement("menuitem"));
+    let m = undoPopup.appendChild(document.createElement("menuitem"));
     m.setAttribute("label", "Clear undo close tab list");
     m.setAttribute("class", "menuitem-iconic bookmark-item");
     m.setAttribute("accesskey", "C");
