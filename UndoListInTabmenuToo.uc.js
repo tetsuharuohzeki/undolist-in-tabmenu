@@ -149,13 +149,25 @@ var UndoListInTabmenuToo = {
     tabContext.addEventListener("popupshowing", this, false);
     menupopup.addEventListener("popupshowing", this, false);
 
+    window.addEventListener("unload", this, false);
+
     originalMenuItem.hidden = true;
+  },
+
+  _onUnLoad: function (aEvent) {
+    window.removeEventListener("unload", this, false);
+
+    tabContext.removeEventListener("popupshowing", this, false);
+    menupopup.removeEventListener("popupshowing", this, false);
   },
 
   handleEvent: function (aEvent) {
     switch (aEvent.type) {
       case "popupshowing":
         this._onPopupShowing(aEvent);
+        break;
+      case "unload":
+        this._onUnLoad(aEvent);
         break;
     }
   },
