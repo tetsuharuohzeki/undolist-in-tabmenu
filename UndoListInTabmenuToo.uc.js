@@ -85,7 +85,7 @@ let UndoListInTabmenuToo = {
       }
       undoPopup.appendChild(m);
     }
-
+/*
     // "Restore All Tabs"
     let strings = gNavigatorBundle;
     undoPopup.appendChild(document.createElement("menuseparator"));
@@ -96,7 +96,7 @@ let UndoListInTabmenuToo = {
       for (let i = 0; i < undoItems.length; i++)
         undoCloseTab();
     }, false);
-
+*/
     // "Clear undo close tab list"
     undoPopup.appendChild(document.createElement("menuseparator"));
 
