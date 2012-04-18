@@ -9,7 +9,7 @@ let UndoListInTabmenuToo = {
   },
 
   get undoCloseAll () {
-    return document.getElementById("context-undoTabList-close-all");
+    return document.getElementById("context-undoTabList-clear-all");
   },
 
   get undoListBox () {

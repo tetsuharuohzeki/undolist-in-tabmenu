@@ -15,7 +15,7 @@
 			<menupopup id="context-undoTabList-popup">
 				<vbox id="context-undoTabList-listbox"/>
 				<menuseparator/>
-				<menuitem id="context-undoTabList-close-all"
+				<menuitem id="context-undoTabList-clear-all"
 				          label="&undolist_in_tab.clearlist.label;"
 				          accesskey="&undolist_in_tab.clearlist.accesskey;"/>
 			</menupopup>
