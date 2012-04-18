@@ -1,9 +1,3 @@
-// ==UserScript==
-// @name           UndoListInTabmenuToo
-// @description    UndoListInTabmenuToo.uc.js
-// @include        main
-// ==/UserScript==
-
 let UndoListInTabmenuToo = {
 
   get undoMenu () {
