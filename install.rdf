@@ -10,6 +10,7 @@
 
 	<!-- Metadata -->
 	<em:name>Undo List in Tab menu</em:name>
+	<em:description>Add Undo Tab List to Tab Context Menu.</em:description>
 	<em:developer>saneyuki_s</em:developer>
 
 	<!-- Target Application -->
