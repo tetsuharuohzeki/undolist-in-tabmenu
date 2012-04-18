@@ -103,7 +103,7 @@ let UndoListInTabmenuToo = {
     let target = aEvent.target;
     switch (target.id) {
       case "context-undoTabList-popup":
-        this.populateUndoSubmenu(target.firstChild);
+        this.populateUndoSubmenu(document.getElementById("context-undoTabList-listbox"));
         break;
       case "tabContextMenu":
         this.toggleRecentlyClosedTabs();
@@ -111,67 +111,23 @@ let UndoListInTabmenuToo = {
     }
   },
 
-  init: function(){
-    let tabContext = gBrowser.tabContainer.contextMenu;
-    let originalMenuItem = document.getElementById("context_undoCloseTab");
-    let [menu, menupopup] = this._createMenu();
+  _onLoad: function (aEvent) {
+    window.removeEventListener("load", this, false);
 
-    tabContext.insertBefore(menu, originalMenuItem);
-    //insert separator
-    tabContext.insertBefore(document.createElement("menuseparator"), originalMenuItem);
+    document.getElementById("context-undoTabList-popup").addEventListener("popupshowing", this, false);
+    gBrowser.tabContainer.contextMenu.addEventListener("popupshowing", this, false);
 
-    //add event listener
-    tabContext.addEventListener("popupshowing", this, false);
-    menupopup.addEventListener("popupshowing", this, false);
+    document.getElementById("context-undoTabList-close-all").addEventListener("command", this, false);
+
+    document.getElementById("context_undoCloseTab").setAttribute("hidden", "true");
 
     window.addEventListener("unload", this, false);
-
-    originalMenuItem.setAttribute("hidden", "true");
-  },
-
-  _createMenu: function () {
-    let menu = document.createElement("menu");
-    menu.setAttribute("id", "context-undoTabList");
-
-    let locale = Services.prefs.getCharPref("general.useragent.locale");
-    let LABELTEXT = locale.indexOf("ja") === -1 ? 
-                   "Recently Closed Tabs" : "\u6700\u8fd1\u9589\u3058\u305f\u30bf\u30d6";
-
-    menu.setAttribute("label", LABELTEXT);
-    menu.setAttribute("accesskey", "L");
-
-    // menupopup
-    let menupopup = document.createElement("menupopup");
-    menupopup.setAttribute("id", "context-undoTabList-popup");
-    menupopup.appendChild(document.createElement("vbox"));
-
-/*
-    // "Restore All Tabs"
-    let strings = gNavigatorBundle;
-    menupopup.appendChild(document.createElement("menuseparator"));
-    let m = menupopup.appendChild(document.createElement("menuitem"));
-    m.setAttribute("id", "menu_restoreAllTabs");
-    m.setAttribute("label", strings.getString("menuRestoreAllTabs.label"));
-    m.addEventListener("command", function() {
-      for (let i = 0; i < undoItems.length; i++)
-        undoCloseTab();
-    }, false);
-*/
-    // "Clear undo close tab list"
-    menupopup.appendChild(document.createElement("menuseparator"));
-
-    let m = menupopup.appendChild(document.createElement("menuitem"));
-    m.setAttribute("label", "Clear Undo Close Tabs List");
-    m.setAttribute("accesskey", "C");
-    m.addEventListener("command", this._clearUndoTabList, false);
-
-    menu.appendChild(menupopup);
-
-    return [menu, menupopup];
   },
 
   _onUnLoad: function (aEvent) {
     window.removeEventListener("unload", this, false);
+
+    document.getElementById("context-undoTabList-close-all").removeEventListener("command", this, false);
 
     gBrowser.tabContainer.contextMenu.removeEventListener("popupshowing", this, false);
     document.getElementById("context-undoTabList-popup").removeEventListener("popupshowing", this, false);
@@ -182,6 +138,12 @@ let UndoListInTabmenuToo = {
       case "popupshowing":
         this._onPopupShowing(aEvent);
         break;
+      case "command":
+        this._clearUndoTabList(aEvent);
+        break;
+      case "load":
+        this._onLoad(aEvent);
+        break;
       case "unload":
         this._onUnLoad(aEvent);
         break;
@@ -189,4 +151,4 @@ let UndoListInTabmenuToo = {
   },
 
 };
-UndoListInTabmenuToo.init();
+window.addEventListener("load", UndoListInTabmenuToo, false);

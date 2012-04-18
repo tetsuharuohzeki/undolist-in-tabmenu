@@ -6,5 +6,20 @@
 
 	<script type="application/javascript" src="./undolist.js"/>
 
+	<menupopup id="tabContextMenu">
+		<menu id="context-undoTabList"
+		      label="Recently Closed Tabs"
+		      accesskey="L"
+		      insertbefore="context_undoCloseTab">
+			<menupopup id="context-undoTabList-popup">
+				<vbox id="context-undoTabList-listbox"/>
+				<menuseparator/>
+				<menuitem id="context-undoTabList-close-all"
+				          label="Clear Undo Close Tabs List"
+				          accesskey="C"/>
+			</menupopup>
+		</menu>
+		<menuseparator insertbefore="context_undoCloseTab"/>
+	</menupopup>
 
 </overlay>
