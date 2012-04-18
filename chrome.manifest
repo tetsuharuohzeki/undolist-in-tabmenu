@@ -1,0 +1,5 @@
+# packages
+content     undolist_in_tab                     content/
+
+# overlay
+overlay     chrome://browser/content/browser.xul  chrome://undolist_in_tab/content/undolist.xul
