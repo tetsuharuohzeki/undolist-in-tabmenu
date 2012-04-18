@@ -1,0 +1,4 @@
+<!ENTITY undolist_in_tab.menu.label           "Recently Closed Tabs">
+<!ENTITY undolist_in_tab.menu.accesskey       "L">
+<!ENTITY undolist_in_tab.clearlist.label      "Clear Undo Close Tabs List">
+<!ENTITY undolist_in_tab.clearlist.accesskey  "C">
