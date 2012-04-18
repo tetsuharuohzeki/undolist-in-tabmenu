@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<!DOCTYPE overlay SYSTEM "chrome://undolist_in_tab/locale/undolist.dtd">
 
 <overlay id="undolist-in-tab-overlay"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
@@ -8,15 +9,15 @@
 
 	<menupopup id="tabContextMenu">
 		<menu id="context-undoTabList"
-		      label="Recently Closed Tabs"
-		      accesskey="L"
+		      label="&undolist_in_tab.menu.label;"
+		      accesskey="&undolist_in_tab.menu.accesskey;"
 		      insertbefore="context_undoCloseTab">
 			<menupopup id="context-undoTabList-popup">
 				<vbox id="context-undoTabList-listbox"/>
 				<menuseparator/>
 				<menuitem id="context-undoTabList-close-all"
-				          label="Clear Undo Close Tabs List"
-				          accesskey="C"/>
+				          label="&undolist_in_tab.clearlist.label;"
+				          accesskey="&undolist_in_tab.clearlist.accesskey;"/>
 			</menupopup>
 		</menu>
 		<menuseparator insertbefore="context_undoCloseTab"/>
