@@ -56,8 +56,8 @@ let UndoListInTabmenuToo = {
   /**
    * Populate when the history menu is opened
    */
-  populateUndoSubmenu: function PHM_populateUndoSubmenu(aUndoPopup) {
-    let undoPopup = aUndoPopup;
+  populateUndoSubmenu: function PHM_populateUndoSubmenu() {
+    let undoPopup = this.undoListBox;
 
     // remove existing menu items
     while (undoPopup.hasChildNodes()) {
@@ -115,7 +115,7 @@ let UndoListInTabmenuToo = {
     let target = aEvent.target;
     switch (target.id) {
       case "context-undoTabList-popup":
-        this.populateUndoSubmenu(this.undoListBox);
+        this.populateUndoSubmenu();
         break;
       case "tabContextMenu":
         this.toggleRecentlyClosedTabs();
