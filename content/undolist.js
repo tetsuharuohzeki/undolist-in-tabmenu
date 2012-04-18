@@ -13,8 +13,10 @@ let UndoListInTabmenuToo = {
   },
 
   get undoListBox () {
-    return document.getElementById("context-undoTabList-listbox");
+    delete this.undoListBox;
+    return this.undoListBox = document.getElementById("context-undoTabList-listbox");
   },
+  set undoListBox (value) {},
 
   get _ss () {
     delete this._ss;
@@ -136,6 +138,9 @@ let UndoListInTabmenuToo = {
     this.undoCloseAll.removeEventListener("command", this, false);
     gBrowser.tabContainer.contextMenu.removeEventListener("popupshowing", this, false);
     this.undoPopup.removeEventListener("popupshowing", this, false);
+
+    // Release chache
+    this.undoListBox = null;
   },
 
   handleEvent: function (aEvent) {
