@@ -95,11 +95,11 @@ let UndoListInTabmenuToo = {
   },
 
   _clearUndoTabList: function () {
-    const kMAX_TABS_UNDO = "browser.sessionstore.max_tabs_undo";
-    let max_undo = Services.prefs.getIntPref(kMAX_TABS_UNDO, 10);
+    const MAX_TABS_UNDO = "browser.sessionstore.max_tabs_undo";
+    let max_undo = Services.prefs.getIntPref(MAX_TABS_UNDO, 10);
 
-    Services.prefs.setIntPref(kMAX_TABS_UNDO, 0);
-    Services.prefs.setIntPref(kMAX_TABS_UNDO, max_undo);
+    Services.prefs.setIntPref(MAX_TABS_UNDO, 0);
+    Services.prefs.setIntPref(MAX_TABS_UNDO, max_undo);
   },
 
   /**
