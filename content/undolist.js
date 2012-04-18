@@ -10,6 +10,18 @@ let UndoListInTabmenuToo = {
     return document.getElementById("context-undoTabList");
   },
 
+  get undoPopup () {
+    return document.getElementById("context-undoTabList-popup");
+  },
+
+  get undoCloseAll () {
+    return document.getElementById("context-undoTabList-close-all");
+  },
+
+  get undoListBox () {
+    return document.getElementById("context-undoTabList-listbox");
+  },
+
   get _ss () {
     delete this._ss;
     return this._ss = Cc["@mozilla.org/browser/sessionstore;1"].
@@ -103,7 +115,7 @@ let UndoListInTabmenuToo = {
     let target = aEvent.target;
     switch (target.id) {
       case "context-undoTabList-popup":
-        this.populateUndoSubmenu(document.getElementById("context-undoTabList-listbox"));
+        this.populateUndoSubmenu(this.undoListBox);
         break;
       case "tabContextMenu":
         this.toggleRecentlyClosedTabs();
@@ -114,11 +126,11 @@ let UndoListInTabmenuToo = {
   _onLoad: function (aEvent) {
     window.removeEventListener("load", this, false);
 
-    document.getElementById("context-undoTabList-popup").addEventListener("popupshowing", this, false);
+    this.undoPopup.addEventListener("popupshowing", this, false);
     gBrowser.tabContainer.contextMenu.addEventListener("popupshowing", this, false);
-
-    document.getElementById("context-undoTabList-close-all").addEventListener("command", this, false);
-
+    this.undoCloseAll.addEventListener("command", this, false);
+ 
+    // hide default item
     document.getElementById("context_undoCloseTab").setAttribute("hidden", "true");
 
     window.addEventListener("unload", this, false);
@@ -127,10 +139,9 @@ let UndoListInTabmenuToo = {
   _onUnLoad: function (aEvent) {
     window.removeEventListener("unload", this, false);
 
-    document.getElementById("context-undoTabList-close-all").removeEventListener("command", this, false);
-
+    this.undoCloseAll.removeEventListener("command", this, false);
     gBrowser.tabContainer.contextMenu.removeEventListener("popupshowing", this, false);
-    document.getElementById("context-undoTabList-popup").removeEventListener("popupshowing", this, false);
+    this.undoPopup.removeEventListener("popupshowing", this, false);
   },
 
   handleEvent: function (aEvent) {
