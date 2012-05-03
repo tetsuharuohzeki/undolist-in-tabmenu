@@ -139,7 +139,7 @@ let UndoListInTabmenuToo = {
     gBrowser.tabContainer.contextMenu.removeEventListener("popupshowing", this, false);
     this.undoPopup.removeEventListener("popupshowing", this, false);
 
-    // Release chache
+    // Release cache
     this.undoListBox = null;
   },
 
